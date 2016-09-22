@@ -33,6 +33,10 @@ module Plutus
     validate :has_credit_amounts?
     validate :has_debit_amounts?
     validate :amounts_cancel?
+    
+    if Plutus.enable_tenancy
+      belongs_to :tenant, class_name: Plutus.tenant_class
+    end
 
     # Support construction using 'credits' and 'debits' keys
     accepts_nested_attributes_for :credit_amounts, :debit_amounts, allow_destroy: true
