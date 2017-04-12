@@ -4,14 +4,19 @@ class CreatePlutusTables < ActiveRecord::Migration
       t.string :name
       t.string :type
       t.boolean :contra
+      
+      t.integer :code, index: true
+      t.integer :rollup_code, index: true
+      t.references :plutus_account, index: true
 
       t.timestamps
     end
     add_index :plutus_accounts, [:name, :type]
 
     create_table :plutus_entries do |t|
+      t.references :reference, polymorphic: true
       t.string :description
-      t.date :date
+      t.datetime :date
       t.integer :commercial_document_id
       t.string :commercial_document_type
 
