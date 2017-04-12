@@ -32,8 +32,8 @@ module Plutus
   class Account < ActiveRecord::Base
     class_attribute :normal_credit_balance
 
-    belongs_to :parent, foreign_key: "plutus_account", class_name: "Plutus::Account"
-    has_many :children, foreign_key: "plutus_account", class_name: "Plutus::Account"
+    belongs_to :parent, foreign_key: "plutus_account_id", class_name: "Plutus::Account"
+    has_many :children, foreign_key: "plutus_account_id", class_name: "Plutus::Account"
     has_many :amounts
     has_many :credit_amounts, :extend => AmountsExtension, :class_name => 'Plutus::CreditAmount'
     has_many :debit_amounts, :extend => AmountsExtension, :class_name => 'Plutus::DebitAmount'
