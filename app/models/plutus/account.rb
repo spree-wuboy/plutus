@@ -42,9 +42,9 @@ module Plutus
     has_many :debit_entries, :through => :debit_amounts, :source => :entry, :class_name => 'Plutus::Entry'
 
     validates_presence_of :type
-    validates :rollup_code, presence: true, numericality: { greater_than_or_equal_to: 100 }
-    validates :code, presence: true, numericality: { greater_than_or_equal_to: 100 }
-    validates :code, numericality: { greater_than_or_equal_to: :rollup_code, message: "must be greater than or equal to Rollup Code." } # TODO translate
+    #validates :rollup_code, presence: true, numericality: { greater_than_or_equal_to: 100 }
+    #validates :code, presence: true, numericality: { greater_than_or_equal_to: 100 }
+    #validates :code, numericality: { greater_than_or_equal_to: :rollup_code, message: "must be greater than or equal to Rollup Code." } # TODO translate
 
     if Plutus.enable_tenancy
       include Plutus::Tenancy
