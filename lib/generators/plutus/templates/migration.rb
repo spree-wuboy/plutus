@@ -14,16 +14,13 @@ class CreatePlutusTables < ActiveRecord::Migration
     add_index :plutus_accounts, [:name, :type]
 
     create_table :plutus_entries do |t|
-      t.references :reference, polymorphic: true
+      t.references :target, polymorphic: true, index: true
       t.string :description
-      t.datetime :date
-      t.integer :commercial_document_id
-      t.string :commercial_document_type
+      t.datetime :date, index: true
+      t.references :commercial_document, polymorphic: true, index: true
 
       t.timestamps
     end
-    add_index :plutus_entries, :date
-    add_index :plutus_entries, [:commercial_document_id, :commercial_document_type], :name => "index_entries_on_commercial_doc"
 
     create_table :plutus_amounts do |t|
       t.string :type
