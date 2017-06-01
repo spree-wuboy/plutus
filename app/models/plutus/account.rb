@@ -84,6 +84,27 @@ module Plutus
         end
       end
     end
+    
+    # FredSch
+    def get_children
+      self.children
+    end
+
+    def children_balance(options={})
+      if self.class == Plutus::Account
+        raise(NoMethodError, "undefined method 'children_balance'")
+      else
+        accounts_balance = BigDecimal.new('0')
+        children.each do |account|
+          if account.contra
+            accounts_balance -= account.balance(options)
+          else
+            accounts_balance += account.balance(options)
+          end
+        end
+        accounts_balance
+      end
+    end
 
     # The credit balance for the account.
     #
@@ -154,7 +175,7 @@ module Plutus
         accounts_balance
       end
     end
-
+    
     # The trial balance of all accounts in the system. This should always equal zero,
     # otherwise there is an error in the system.
     #
