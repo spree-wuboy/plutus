@@ -86,10 +86,6 @@ module Plutus
     end
     
     # FredSch
-    def get_children
-      self.children
-    end
-
     def children_balance(options={})
       if self.class == Plutus::Account
         raise(NoMethodError, "undefined method 'children_balance'")
@@ -102,6 +98,29 @@ module Plutus
             accounts_balance += account.balance(options)
           end
         end
+        accounts_balance
+      end
+    end
+
+    # FredSch
+    def tree_balance(options={})
+      if self.class == Plutus::Account
+        raise(NoMethodError, "undefined method 'children_balance'")
+      else
+        accounts_balance = BigDecimal.new('0')
+        
+        # Do self
+        if self.normal_credit_balance ^ contra
+          accounts_balance += credits_balance(options) - debits_balance(options)
+        else
+          accounts_balance += debits_balance(options) - credits_balance(options)
+        end
+        
+        # Do children
+        self.children.each do |child|
+          accounts_balance += child.tree_balance(options)
+        end
+        
         accounts_balance
       end
     end
