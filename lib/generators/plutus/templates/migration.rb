@@ -3,6 +3,7 @@ class CreatePlutusTables < ActiveRecord::Migration
     create_table :plutus_accounts do |t|
       t.string :name
       t.string :type
+      t.string :code
       t.boolean :contra
       
       t.integer :code, index: true
@@ -12,6 +13,7 @@ class CreatePlutusTables < ActiveRecord::Migration
       t.timestamps
     end
     add_index :plutus_accounts, [:name, :type]
+    add_index :plutus_accounts, :code, :unique => true
 
     create_table :plutus_entries do |t|
       t.references :target, polymorphic: true, index: true
@@ -27,6 +29,7 @@ class CreatePlutusTables < ActiveRecord::Migration
       t.references :account
       t.references :entry
       t.decimal :amount, :precision => 20, :scale => 10
+      t.string :description
     end
     add_index :plutus_amounts, :type
     add_index :plutus_amounts, [:account_id, :entry_id]
