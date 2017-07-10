@@ -22,6 +22,7 @@ module Plutus
   #
   # @author Michael Bulat
   class Entry < ActiveRecord::Base
+    default_scope {order("date desc").includes(:debit_amounts => :account, :credit_amounts => :account)}
     before_save :default_date
     belongs_to :commercial_document, :polymorphic => true
     belongs_to :target, :polymorphic => true
@@ -34,7 +35,7 @@ module Plutus
     validate :has_credit_amounts?
     validate :has_debit_amounts?
     validate :amounts_cancel?
-    
+
     if Plutus.enable_tenancy
       belongs_to :tenant, class_name: Plutus.tenant_class
     end
@@ -60,15 +61,15 @@ module Plutus
       end
 
       def has_credit_amounts?
-        errors[:base] << "Entry must have at least one credit amount" if self.credit_amounts.blank?
+        errors[:base] << I18n.t("plutus.at_least_one_credit_amount") if self.credit_amounts.blank?
       end
 
       def has_debit_amounts?
-        errors[:base] << "Entry must have at least one debit amount" if self.debit_amounts.blank?
+        errors[:base] << I18n.t("plutus.at_least_one_debit_amount") if self.debit_amounts.blank?
       end
 
       def amounts_cancel?
-        errors[:base] << "The credit and debit amounts are not equal" if credit_amounts.balance_for_new_record != debit_amounts.balance_for_new_record
+        errors[:base] << I18n.t("plutus.amounts_are_not_equal") if credit_amounts.balance_for_new_record != debit_amounts.balance_for_new_record
       end
   end
 end

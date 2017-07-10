@@ -1,0 +1,5 @@
+en:
+  plutus:
+    at_least_one_credit_amount: "Entry must have at least one credit amount"
+    at_least_one_debit_amount: "Entry must have at least one debit amount"
+    amounts_are_not_equal: "The credit and debit amounts are not equal"

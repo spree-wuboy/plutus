@@ -1,0 +1,10 @@
+zh-TW:
+  activerecord:
+    attributes:
+      plutus/entry:
+        description: 描述
+        date: 日期
+  plutus:
+    at_least_one_credit_amount: "分錄必須至少有一項貸方"
+    at_least_one_debit_amount: "分錄必須至少有一項借方"
+    amounts_are_not_equal: "借方貸方金額不符"
